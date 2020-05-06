@@ -2,8 +2,9 @@
 
 {% block body %}
     <h3>Lista Cliente</h3>
+    {% include 'ClientesBundle:Cliente:messages/succes.html.twig' %}
     <div class="table-responsive">
-        <table class="table">
+        <table class="table" id="list-clientes">
             <thead>
             <tr>
                 <th>Nombre</th>
@@ -21,12 +22,16 @@
                     <td>{{ cliente.email }}</td>
                     <td>{{ cliente.grupoCliente }}</td>
                     <td>
-                        <a href="{{ path('list-client') }}" type="button" class="btn btn-info btn-sm">Editar</a>
-                        <a href="{{ path('list-client') }}" type="button" class="btn btn-danger btn-sm">Elimiar</a>
+                        <a href="{{ path('edit-client', {'id': cliente.id }) }}" type="button" class="btn btn-info btn-sm">Editar</a>
+                        <a href="{{ path('delete-client', {'id': cliente.id }) }}" type="button" class="btn btn-danger btn-sm">Elimiar</a>
                     </td>
                 </tr>
             {% endfor %}
             <tbody>
         </table>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/clientes/js/clientes.js') }}"></script>
 {% endblock %}

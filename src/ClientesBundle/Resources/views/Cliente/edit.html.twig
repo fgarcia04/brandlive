@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 {% use 'ClientesBundle:Cliente:form.html.twig' %}
-
 {% block body %}
-    <h3>Nuevo Cliente</h3>
-    {% include 'ClientesBundle:Cliente:messages/succes.html.twig' %}
+    <h3>Editar Cliente</h3>
     {% block form %}
         {{  parent()  }}
         {{ form_widget(form.save, {'attr' : {'class' : 'btn btn-primary'}}) }}
-        <a href="{{ path('home') }}" type="button" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ path('list-client') }}" type="button" class="btn btn-secondary">Cancelar</a>
         {{ form_end(form) }}
     {% endblock %}
 {% endblock %}
