@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h3>Lista Cliente</h3>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Mail</th>
+                <th>Grupo Cliente</th>
+                <th>Accion</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nombre }}</td>
+                    <td>{{ cliente.apellido }}</td>
+                    <td>{{ cliente.email }}</td>
+                    <td>{{ cliente.grupoCliente }}</td>
+                    <td>
+                        <a href="{{ path('list-client') }}" type="button" class="btn btn-info btn-sm">Editar</a>
+                        <a href="{{ path('list-client') }}" type="button" class="btn btn-danger btn-sm">Elimiar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tbody>
+        </table>
+    </div>
+{% endblock %}

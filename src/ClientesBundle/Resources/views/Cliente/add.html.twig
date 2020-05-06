@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h3>Nuevo Cliente</h3>
+    {{ form_start(form, {'attr' : {'novalidate' : 'novalidate','role' : 'form'}}) }}
+    <div class="form-group">
+        {{ form_label(form.nombre) }}
+        {{ form_widget(form.nombre, {'attr' : {'class' : 'form-control','placeholder' : 'Ingresar nombre'}}) }}
+        <span class="text-danger"> {{ form_errors(form.nombre) }}<span>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.apellido) }}
+        {{ form_widget(form.apellido, {'attr' : {'class' : 'form-control','placeholder' : 'Ingresar apellido'}}) }}
+        <span class="text-danger"> {{ form_errors(form.apellido) }}<span>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, {'attr' : {'class' : 'form-control','placeholder' : 'Ingresar email'}}) }}
+        <span class="text-danger"> {{ form_errors(form.email) }}<span>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.grupoCliente) }}
+        {{ form_widget(form.grupoCliente, {'attr' : {'class' : 'form-control','placeholder' : 'Ingresar grupo'}}) }}
+        <span class="text-danger"> {{ form_errors(form.grupoCliente) }}<span>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.observaciones) }}
+        {{ form_widget(form.observaciones, {'attr' : {'class' : 'form-control','placeholder' : 'Ingresar observaciones'}}) }}
+    </div>
+    {{ form_widget(form.save, {'attr' : {'class' : 'btn btn-primary'}}) }}
+    {{ form_end(form) }}
+{% endblock %}
