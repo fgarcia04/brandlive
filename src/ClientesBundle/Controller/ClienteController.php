@@ -31,56 +31,15 @@ class ClienteController extends Controller
      */
     public function newClientAction()
     {
-
-        $form = $this->createFormClient($this->clientEntity,[
-            'action' => $this->generateUrl('add-client'),
+        $form = $this->createFormClient($this->clientEntity, array(
+                'action' => $this->generateUrl('add-client'),
             'method'=> 'POST'
 
-        ]);
-        return $this->render('ClientesBundle:Cliente:add.html.twig',
-            [
+        ));
+        return $this->render('ClientesBundle:Cliente:add.html.twig', array(
                 'form' => $form->createView()
-            ]);
-    }
-
-    /**
-     * @Route("/edit-client/{id}", name="edit-client", methods={"GET"})
-     */
-    public function editClientAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
-        if(empty($cliente)){
-            throw $this->createNotFoundException("No encontrado");
-        }
-        $form = $this->createFormClient($cliente,
-            [
-                'action' => $this->generateUrl('update-client',array('id' => $cliente->getId())),
-                'method'=> 'PUT'
-            ]);
-        return $this->render('ClientesBundle:Cliente:edit.html.twig',
-            [
-                'cliente' => $cliente,
-                'form' => $form->createView()
-            ]);
-    }
-
-    /**
-     * @Route("/delete-client/{id}", name="delete-client", methods={"GET"})
-     */
-    public function deleteClientAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
-        if(empty($cliente)){
-            throw $this->createNotFoundException("No encontrado");
-        }
-        $form = $this->createFormBuilder()->setAction($this->generateUrl('remove-client',array('id' => $cliente->getId())))->setMethod('DELETE')->getForm();
-        return $this->render('ClientesBundle:Cliente:delete.html.twig',
-            [
-                'cliente' => $cliente,
-                'form' => $form->createView()
-            ]);
+            )
+        );
     }
 
     /**
@@ -88,11 +47,11 @@ class ClienteController extends Controller
      */
     public function addClientAction(Request $request)
     {
-        $form = $this->createFormClient($this->clientEntity,[
+        $form = $this->createFormClient($this->clientEntity, array(
             'action' => $this->generateUrl('add-client'),
             'method'=> 'POST'
 
-        ]);
+        ));
         $form->handleRequest($request);
         if($form->isValid()){
             $em = $this->getDoctrine()->getManager();
@@ -104,10 +63,29 @@ class ClienteController extends Controller
             );
             return $this->redirectToRoute('new-client');
         }
-        return $this->render('ClientesBundle:Cliente:add.html.twig',
-            [
+        return $this->render('ClientesBundle:Cliente:add.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/edit-client/{id}", name="edit-client", methods={"GET"})
+     */
+    public function editClientAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
+        if(empty($cliente)){
+            throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
+        }
+        $form = $this->createFormClient($cliente, array(
+                'action' => $this->generateUrl('update-client',array('id' => $cliente->getId())),
+                'method'=> 'PUT'
+            ));
+        return $this->render('ClientesBundle:Cliente:edit.html.twig',array(
+                'cliente' => $cliente,
                 'form' => $form->createView()
-            ]);
+            ));
     }
 
     /**
@@ -118,14 +96,14 @@ class ClienteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
         if(empty($cliente)){
-            throw $this->createNotFoundException("No encontrado");
+            throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
         }
 
-        $form = $this->createFormClient($cliente,[
+        $form = $this->createFormClient($cliente,array(
             'action' => $this->generateUrl('update-client',array('id' => $cliente->getId())),
             'method'=> 'PUT'
-        ]);
-        $form->handleRequest($request   );
+        ));
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
@@ -135,26 +113,41 @@ class ClienteController extends Controller
             );
             return $this->redirectToRoute('list-client',array('id' => $cliente->getId()));
         }
-        return $this->render('ClientesBundle:Cliente:edit.html.twig',
-            [
-                'cliente' => $cliente,
-                'form' => $form->createView()
-            ]);
+        return $this->render('ClientesBundle:Cliente:edit.html.twig', array(
+            'cliente' => $cliente,
+            'form' => $form->createView()
+        ));
 
     }
 
     /**
-     * @Route("/remove-client/{id}", name="remove-client", methods={"DELETE"})
+     * @Route("/remove-client/{id}", name="remove-client", methods={"GET"})
      */
-    public function removeClientAction($id,Request $request)
+    public function removeClientAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
         if(empty($cliente)){
-            throw $this->createNotFoundException("No encontrado");
+            throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
         }
+        $form = $this->createFormBuilder()->setAction($this->generateUrl('delete-client',array('id' => $cliente->getId())))->setMethod('DELETE')->getForm();
+        return $this->render('ClientesBundle:Cliente:remove.html.twig', array(
+                'cliente' => $cliente,
+                'form' => $form->createView()
+            ));
+    }
 
-        $form = $this->createFormBuilder()->setAction($this->generateUrl('remove-client',array('id' => $cliente->getId())))->setMethod('DELETE')->getForm();
+    /**
+     * @Route("/delete-client/{id}", name="delete-client", methods={"DELETE"})
+     */
+    public function deleteClientAction($id,Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
+        if(empty($cliente)){
+            throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
+        }
+        $form = $this->createFormBuilder()->setAction($this->generateUrl('delete-client',array('id' => $cliente->getId())))->setMethod('DELETE')->getForm();
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -166,11 +159,10 @@ class ClienteController extends Controller
             );
             return $this->redirectToRoute('list-client',array('id' => $cliente->getId()));
         }
-        return $this->render('ClientesBundle:Cliente:delete.html.twig',
-            [
+        return $this->render('ClientesBundle:Cliente:remove.html.twig', array(
                 'cliente' => $cliente,
                 'form' => $form->createView()
-            ]);
+            ));
 
     }
 
@@ -182,10 +174,9 @@ class ClienteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $clientes = $em->getRepository('ClientesBundle:Cliente')->findAll();
 
-        return $this->render('ClientesBundle:Cliente:list.html.twig',
-            [
+        return $this->render('ClientesBundle:Cliente:list.html.twig', array(
                 'clientes' => $clientes
-            ]);
+            ));
     }
 
     private function createFormClient(Cliente $entity, $form)

@@ -6,7 +6,7 @@
     {% include 'ClientesBundle:Cliente:messages/succes.html.twig' %}
     {% block form %}
         {{  parent()  }}
-        {{ form_widget(form.save, {'attr' : {'class' : 'btn btn-primary'}}) }}
+        <button type="submit" class="btn btn-primary">Agregar</button>
         <a href="{{ path('home') }}" type="button" class="btn btn-secondary">Cancelar</a>
         {{ form_end(form) }}
     {% endblock %}

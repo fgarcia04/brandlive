@@ -61,7 +61,6 @@ class Cliente
      * @var string
      *
      * @ORM\Column(name="observaciones", type="text", nullable=true)
-     * @Assert\NotBlank()
      */
     private $observaciones;
 

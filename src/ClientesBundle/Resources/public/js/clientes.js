@@ -1,6 +1,9 @@
 $(document).ready(function () {
     $('#list-clientes').DataTable({
-        "language": {
+        columnDefs: [
+            {  orderable: false, targets: 4 }
+        ],
+        language: {
             sProcessing: "Procesando...",
             sLengthMenu: "Mostrar _MENU_ registros",
             sZeroRecords: "No se encontraron resultados",
@@ -24,8 +27,8 @@ $(document).ready(function () {
                 sSortDescending: ": Ordenar columna de manera descendente"
             }
         },
-        "responsive": true,
-        "autoWidth": true,
-        "processing": true
+        responsive: true,
+        autoWidth: true,
+        processing: true
     })
 });

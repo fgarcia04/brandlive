@@ -20,8 +20,7 @@ class ClienteType extends AbstractType
             ->add('grupoCliente', 'choice', array(
                 'choices'   => array('' => 'Seleccionar un grupo',1 => 'Grupo A', 2 => 'Grupo B', 3 => 'Grupo C')
             ))
-            ->add('observaciones')
-            ->add('save','submit', array('label' => 'Guardar'));
+            ->add('observaciones');
     }
     /**
      * {@inheritdoc}
