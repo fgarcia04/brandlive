@@ -16,7 +16,7 @@ jConfirm = function (message, title, confirmCallback) {
     });
 };
 
-sendAjax = function (method, url, params,callBackSuccess = null, callBackBeforeSend= null, callBackComplete = null, callBackError = null) {
+sendAjax = function (method, url, params,button,callBackSuccess = null, callBackBeforeSend= null, callBackComplete = null, callBackError = null) {
     $.ajax({
         type: method,
         url: Routing.generate(url),
@@ -24,6 +24,10 @@ sendAjax = function (method, url, params,callBackSuccess = null, callBackBeforeS
         beforeSend: function(xhr) {
             if (callBackBeforeSend && typeof (callBackBeforeSend) === "function"){
                 callBackBeforeSend(xhr);
+            }else{
+                if(button){
+                    spinnerButton(true, button);
+                }
             }
         },
         success: function(response) {
@@ -39,6 +43,10 @@ sendAjax = function (method, url, params,callBackSuccess = null, callBackBeforeS
         complete: function(xhr) {
             if (callBackComplete && typeof (callBackComplete) === "function"){
                 callBackComplete(xhr);
+            }else{
+                if(button){
+                    spinnerButton(false, button);
+                }
             }
         },
         dataType: 'json'

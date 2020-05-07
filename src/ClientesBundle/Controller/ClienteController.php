@@ -33,7 +33,7 @@ class ClienteController extends Controller
     public function newClientAction()
     {
         $form = $this->createFormClient($this->clientEntity, array(
-                'action' => $this->generateUrl('add-client'),
+            'action' => $this->generateUrl('add-client'),
             'method'=> 'POST'
 
         ));
@@ -80,13 +80,13 @@ class ClienteController extends Controller
             throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
         }
         $form = $this->createFormClient($cliente, array(
-                'action' => $this->generateUrl('update-client',array('id' => $cliente->getId())),
-                'method'=> 'PUT'
-            ));
+            'action' => $this->generateUrl('update-client',array('id' => $cliente->getId())),
+            'method'=> 'PUT'
+        ));
         return $this->render('ClientesBundle:Cliente:edit.html.twig',array(
-                'cliente' => $cliente,
-                'form' => $form->createView()
-            ));
+            'cliente' => $cliente,
+            'form' => $form->createView()
+        ));
     }
 
     /**
@@ -133,9 +133,9 @@ class ClienteController extends Controller
         }
         $form = $this->createFormBuilder()->setAction($this->generateUrl('delete-client',array('id' => $cliente->getId())))->setMethod('DELETE')->getForm();
         return $this->render('ClientesBundle:Cliente:remove.html.twig', array(
-                'cliente' => $cliente,
-                'form' => $form->createView()
-            ));
+            'cliente' => $cliente,
+            'form' => $form->createView()
+        ));
     }
 
     /**
@@ -163,8 +163,8 @@ class ClienteController extends Controller
         $clientes = $em->getRepository('ClientesBundle:Cliente')->findAll();
 
         return $this->render('ClientesBundle:Cliente:list.html.twig', array(
-                'clientes' => $clientes
-            ));
+            'clientes' => $clientes
+        ));
     }
 
     private function createFormClient(Cliente $entity, $form)

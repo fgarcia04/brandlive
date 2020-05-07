@@ -41,13 +41,9 @@ $('.remove-client').click(function() {
     var button = $(this);
     jConfirm("Confirma eliminar el cliente "+client[0]+" "+client[1]+" ?", "Eliminar Cliente", function (response) {
         if(response){
-            sendAjax('DELETE', 'delete-client', {id:tr.attr('data-id')},
+            sendAjax('DELETE', 'delete-client', {id:tr.attr('data-id')},button,
                 function(response){
                     table_clients.row(tr).remove().draw();
-                },function() {
-                    spinnerButton(true, button);
-                }, function () {
-                    spinnerButton(false, button);
                 });
         }
     });
