@@ -1,5 +1,6 @@
+var table_clients;
 $(document).ready(function () {
-    $('#list-clientes').DataTable({
+    table_clients = $('#list-clientes').DataTable({
         columnDefs: [
             {  orderable: false, targets: 4 }
         ],
@@ -31,4 +32,23 @@ $(document).ready(function () {
         autoWidth: true,
         processing: true
     })
+});
+
+
+$('.remove-client').click(function() {
+    var tr = $(this).parent().parent();
+    var client = table_clients.row(tr).data();
+    var button = $(this);
+    jConfirm("Confirma eliminar el cliente "+client[0]+" "+client[1]+" ?", "Eliminar Cliente", function (response) {
+        if(response){
+            sendAjax('DELETE', 'delete-client', {id:tr.attr('data-id')},
+                function(response){
+                    table_clients.row(tr).remove().draw();
+                },function() {
+                    spinnerButton(true, button);
+                }, function () {
+                    spinnerButton(false, button);
+                });
+        }
+    });
 });

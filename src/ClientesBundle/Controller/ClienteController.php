@@ -7,6 +7,7 @@ use ClientesBundle\Entity\Cliente;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ClientesBundle\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ClienteController extends Controller
@@ -138,31 +139,18 @@ class ClienteController extends Controller
     }
 
     /**
-     * @Route("/delete-client/{id}", name="delete-client", methods={"DELETE"})
+     * @Route("/delete-client", options={"expose"=true}, name="delete-client", methods={"DELETE"})
      */
-    public function deleteClientAction($id,Request $request)
+    public function deleteClientAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
+        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($request->get('id'));
         if(empty($cliente)){
             throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
         }
-        $form = $this->createFormBuilder()->setAction($this->generateUrl('delete-client',array('id' => $cliente->getId())))->setMethod('DELETE')->getForm();
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $em->remove($cliente);
-            $em->flush();
-            $this->addFlash(
-                MensajesConstantes::TYPE_MESSAGE,
-                MensajesConstantes::TEXT_MESSAGE_DELETE. ' ' .$cliente->getNombre(). ' ' .$cliente->getApellido()
-            );
-            return $this->redirectToRoute('list-client',array('id' => $cliente->getId()));
-        }
-        return $this->render('ClientesBundle:Cliente:remove.html.twig', array(
-                'cliente' => $cliente,
-                'form' => $form->createView()
-            ));
+        $em->remove($cliente);
+        $em->flush();
+        return new JsonResponse(array("succses" => true));
 
     }
 

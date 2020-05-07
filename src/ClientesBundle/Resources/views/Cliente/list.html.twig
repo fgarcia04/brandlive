@@ -16,14 +16,14 @@
             </thead>
             <tbody>
             {% for cliente in clientes %}
-                <tr>
+                <tr data-id="{{ cliente.id }}">
                     <td>{{ cliente.nombre }}</td>
                     <td>{{ cliente.apellido }}</td>
                     <td>{{ cliente.email }}</td>
                     <td>{{ cliente.grupoCliente }}</td>
                     <td class="text-center">
                         <a href="{{ path('edit-client', {'id': cliente.id }) }}" type="button" class="btn btn-info btn-sm">Editar</a>
-                        <a href="{{ path('remove-client', {'id': cliente.id }) }}" type="button" class="btn btn-danger btn-sm">Elimiar</a>
+                        <button type="button" class="remove-client btn btn-danger btn-sm">Eliminar</button>
                     </td>
                 </tr>
             {% endfor %}
