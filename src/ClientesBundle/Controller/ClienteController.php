@@ -3,6 +3,7 @@
 namespace ClientesBundle\Controller;
 
 use ClientesBundle\Constantes\MensajesConstantes;
+use ClientesBundle\Constantes\VariablesConstantes;
 use ClientesBundle\Entity\Cliente;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,10 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 class ClienteController extends Controller
 {
     private $clientEntity;
-    private $httpCode = 200;
-    private $message = "";
-    private $divClass = "success";
-
     function __construct()
     {
         $this->clientEntity = new Cliente();
@@ -153,7 +150,8 @@ class ClienteController extends Controller
         $clientes = $em->getRepository('ClientesBundle:Cliente')->findAll();
 
         return $this->render('ClientesBundle:Cliente:list.html.twig', array(
-            'clientes' => $clientes
+            'clientes' => $clientes,
+            'grupos'=> VariablesConstantes::getGroups(),
         ));
     }
 

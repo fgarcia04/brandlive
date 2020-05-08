@@ -2,6 +2,7 @@
 
 namespace ClientesBundle\Form;
 
+use ClientesBundle\Constantes\VariablesConstantes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +19,7 @@ class ClienteType extends AbstractType
             ->add('apellido')
             ->add('email', 'email')
             ->add('grupoCliente', 'choice', array(
-                'choices'   => array('' => 'Seleccionar un grupo',1 => 'Grupo A', 2 => 'Grupo B', 3 => 'Grupo C')
+                'choices'   => VariablesConstantes::getGroups()
             ))
             ->add('observaciones');
     }

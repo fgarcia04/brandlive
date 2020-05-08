@@ -22,7 +22,7 @@
                     <td>{{ cliente.nombre }}</td>
                     <td>{{ cliente.apellido }}</td>
                     <td>{{ cliente.email }}</td>
-                    <td>{{ cliente.grupoCliente }}</td>
+                    <td>{{ grupos[cliente.grupoCliente] }}</td>
                     <td class="text-center">
                         <a href="{{ path('edit-client', {'id': cliente.id }) }}" type="button" class="btn btn-info btn-sm">Editar</a>
                         <button type="button" class="remove-client btn btn-danger btn-sm">Eliminar</button>
