@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 {% use 'ClientesBundle:Cliente:form.html.twig' %}
 
-{% block body %}
+{% block alert %}
     <h3>Nuevo Cliente</h3>
-    {% include 'ClientesBundle:Cliente:messages/succes.html.twig' %}
+    {{  parent()  }}
+{% endblock %}
+{% block body %}
     {% block form %}
         {{  parent()  }}
         <button type="submit" class="btn btn-primary">Agregar</button>

@@ -31,6 +31,11 @@
         </div>
     </nav>
     <div class="container">
+        {% block alert %}
+            <div id="alert">
+            {% include 'messages/succes.html.twig' %}
+            </div>
+        {% endblock %}
         {% block body %}
 
         {% endblock %}

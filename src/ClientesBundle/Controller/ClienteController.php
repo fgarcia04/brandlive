@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 class ClienteController extends Controller
 {
     private $clientEntity;
+    private $httpCode = 200;
+    private $message = "";
+    private $divClass = "success";
 
     function __construct()
     {
@@ -122,36 +125,23 @@ class ClienteController extends Controller
     }
 
     /**
-     * @Route("/remove-client/{id}", name="remove-client", methods={"GET"})
-     */
-    public function removeClientAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($id);
-        if(empty($cliente)){
-            throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
-        }
-        $form = $this->createFormBuilder()->setAction($this->generateUrl('delete-client',array('id' => $cliente->getId())))->setMethod('DELETE')->getForm();
-        return $this->render('ClientesBundle:Cliente:remove.html.twig', array(
-            'cliente' => $cliente,
-            'form' => $form->createView()
-        ));
-    }
-
-    /**
      * @Route("/delete-client", options={"expose"=true}, name="delete-client", methods={"DELETE"})
      */
     public function deleteClientAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ClientesBundle:Cliente')->find($request->get('id'));
-        if(empty($cliente)){
-            throw $this->createNotFoundException(MensajesConstantes::TEXT_NOT_FOUND_CLIENT);
+        try{
+            $em = $this->getDoctrine()->getManager();
+            $cliente = $em->getRepository('ClientesBundle:Cliente')->find($request->get('id'));
+            if(empty($cliente)){
+                throw new \Exception(MensajesConstantes::TEXT_NOT_FOUND_CLIENT, 404);
+            }
+            $em->remove($cliente);
+            $em->flush();
+            $response = MensajesConstantes::generateResponse(MensajesConstantes::TEXT_MESSAGE_DELETE. ' ' .$cliente->getNombre(). ' ' .$cliente->getApellido(), 200);
+        }catch (\Exception $e){
+            $response = MensajesConstantes::generateResponse($e->getMessage(), $e->getCode());
         }
-        $em->remove($cliente);
-        $em->flush();
-        return new JsonResponse(array("succses" => true));
-
+        return new JsonResponse($response['response'],$response['httpCode']);
     }
 
     /**
